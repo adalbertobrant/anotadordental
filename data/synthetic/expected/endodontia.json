@@ -11,14 +11,32 @@
   ],
   "procedures": [
     {
-      "name": "Abertura de câmara pulpar e preparo dos canais (sessão inicial de endodontia)",
-      "tooth_fdi": [46],
-      "details": "Polpa removida e canais limpos; sessão não concluída"
+      "name": "Tratamento de canal",
+      "tooth_fdi": [
+        46
+      ],
+      "details": "Sessão inicial: abertura de câmara pulpar e preparo dos canais; polpa removida e canais limpos, sessão não concluída"
     },
     {
-      "name": "Medicação intracanal com hidróxido de cálcio",
-      "tooth_fdi": [46],
-      "details": "Fechamento com selamento temporário"
+      "name": "Medicação intracanal",
+      "tooth_fdi": [
+        46
+      ],
+      "details": "Hidróxido de cálcio"
+    },
+    {
+      "name": "Fechamento temporário",
+      "tooth_fdi": [
+        46
+      ],
+      "details": "Selamento temporário para não deixar aberto"
+    },
+    {
+      "name": "Anestesia local",
+      "tooth_fdi": [
+        46
+      ],
+      "details": null
     }
   ],
   "materials_anesthesia": [

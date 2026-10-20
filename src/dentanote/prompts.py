@@ -31,6 +31,16 @@ REGRAS OBRIGATÓRIAS:
    foi dita, deixe os campos em `null`.
 9. Mantenha os textos em português do Brasil, como foram ditos (paráfrase
    concisa é aceitável; invenção não).
+10. Para `procedures`, use nomes concisos desta lista quando couber:
+    "restauração em resina", "tratamento de canal", "abertura de câmara pulpar",
+    "medicação intracanal", "fechamento temporário", "exodontia simples",
+    "exodontia de dente decíduo", "profilaxia com raspagem supragengival",
+    "aplicação de fluoreto", "abertura e drenagem", "alívio de dor e curativo",
+    "anestesia local", "radiografia", "ajuste de oclusão". Detalhes (classe,
+    técnica, materiais) vão em `details`. Se nenhum nome couber, descreva o
+    procedimento em poucas palavras.
+11. Hidróxido de cálcio e outras medicações intracanais NÃO são medicamentos
+    prescritos: registre-os em `procedures`, nunca em `medications_prescribed`.
 
 FORMATO: responda exclusivamente com um objeto JSON válido com todos os campos
 do schema (use `null` ou `[]` quando não houver informação). Nada além do JSON.
@@ -99,7 +109,7 @@ FEW_SHOT_EXAMPLES: list[dict[str, str]] = [
             '{"chief_complaint":null,'
             '"history":"usa medicamento para pressão, nome não informado",'
             '"findings":[],"teeth":[],'
-            '"procedures":[{"name":"profilaxia","tooth_fdi":[],'
+            '"procedures":[{"name":"profilaxia com raspagem supragengival","tooth_fdi":[],'
             '"details":"raspagem supragengival em todos os dentes"}],'
             '"materials_anesthesia":["fluoreto"],'
             '"medications_prescribed":[],'

@@ -14,11 +14,22 @@
   "procedures": [
     {
       "name": "Abertura e drenagem",
-      "tooth_fdi": [31],
+      "tooth_fdi": [
+        31
+      ],
       "details": "Abertura do dente com drenagem de pus"
+    },
+    {
+      "name": "Anestesia local",
+      "tooth_fdi": [
+        31
+      ],
+      "details": null
     }
   ],
-  "materials_anesthesia": ["Anestesia local"],
+  "materials_anesthesia": [
+    "Anestesia local"
+  ],
   "medications_prescribed": [
     {
       "name": "Amoxicilina",

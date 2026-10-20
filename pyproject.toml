@@ -70,7 +70,7 @@ testpaths = ["tests"]
 markers = [
     "slow: testes que exigem Ollama/Whisper reais (não rodam no CI)",
 ]
-addopts = "-ra"
+addopts = "-ra --disable-socket"
 
 [tool.uv]
 package = true

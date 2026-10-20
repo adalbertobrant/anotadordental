@@ -210,6 +210,7 @@ def test_extraction_logs_never_contain_the_transcript(
     assert "dor no dente 36" not in joined
 
 
+@pytest.mark.enable_socket
 def test_ollama_client_reports_dead_server() -> None:
     client = OllamaClient(Settings(_env_file=None, ollama_url="http://127.0.0.1:9"))
     assert client.is_alive() is False

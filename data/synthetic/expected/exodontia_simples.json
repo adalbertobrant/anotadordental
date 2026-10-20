@@ -12,11 +12,23 @@
   "procedures": [
     {
       "name": "Exodontia simples",
-      "tooth_fdi": [18],
+      "tooth_fdi": [
+        18
+      ],
       "details": "Extração simples, dente saiu inteiro, hemostasia com gaze após o procedimento"
+    },
+    {
+      "name": "Anestesia local",
+      "tooth_fdi": [
+        18
+      ],
+      "details": "Lidocaína"
     }
   ],
-  "materials_anesthesia": ["Lidocaína", "Gaze"],
+  "materials_anesthesia": [
+    "Lidocaína",
+    "Gaze"
+  ],
   "medications_prescribed": [],
   "guidance_given": [
     "Morder a gaze por cerca de trinta minutos",

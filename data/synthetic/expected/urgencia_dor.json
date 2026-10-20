@@ -13,9 +13,9 @@
   ],
   "procedures": [
     {
-      "name": "Procedimento de urgência: limpeza de resíduos e curativo",
+      "name": "Alívio de dor e curativo",
       "tooth_fdi": [47],
-      "details": "Radiografia não realizada; diagnóstico não definido nesta consulta"
+      "details": "Limpeza de resíduos e curativo; radiografia não realizada; diagnóstico não definido nesta consulta"
     }
   ],
   "materials_anesthesia": ["Curativo"],

@@ -7,18 +7,32 @@
   "teeth": [
     {
       "fdi_number": 36,
-      "surfaces": ["O"],
+      "surfaces": [
+        "O"
+      ],
       "note": "Primeiro molar inferior esquerdo"
     }
   ],
   "procedures": [
     {
-      "name": "Restauração classe I em resina",
-      "tooth_fdi": [36],
-      "details": "Abertura, remoção do tecido cariado e restauração da oclusal com resina composta"
+      "name": "Restauração em resina",
+      "tooth_fdi": [
+        36
+      ],
+      "details": "Classe I: abertura, remoção do tecido cariado e restauração da oclusal com resina composta"
+    },
+    {
+      "name": "Anestesia local",
+      "tooth_fdi": [
+        36
+      ],
+      "details": "Mepivacaína"
     }
   ],
-  "materials_anesthesia": ["Mepivacaína", "Resina composta"],
+  "materials_anesthesia": [
+    "Mepivacaína",
+    "Resina composta"
+  ],
   "medications_prescribed": [],
   "guidance_given": [
     "Não mastigar nada do lado anestesiado até o anestésico passar, para evitar morder o lábio"

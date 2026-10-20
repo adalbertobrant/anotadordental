@@ -14,11 +14,22 @@
   "procedures": [
     {
       "name": "Exodontia de dente decíduo",
-      "tooth_fdi": [64],
+      "tooth_fdi": [
+        64
+      ],
       "details": "Remoção do dente de leite; extração saiu fácil"
+    },
+    {
+      "name": "Anestesia local",
+      "tooth_fdi": [
+        64
+      ],
+      "details": "Lidocaína"
     }
   ],
-  "materials_anesthesia": ["Lidocaína"],
+  "materials_anesthesia": [
+    "Lidocaína"
+  ],
   "medications_prescribed": [],
   "guidance_given": [
     "Comida mole hoje",
