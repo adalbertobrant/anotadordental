@@ -34,6 +34,11 @@ dev = [
     "pytest-socket==0.7.0",
     "ruff==0.15.6",
 ]
+# Offline TTS only for scripts/make_synthetic_audio.py (synthetic demo audio).
+# Not needed to run DentaNote itself.
+tts = [
+    "piper-tts==1.8.0",
+]
 
 [build-system]
 requires = ["hatchling"]
