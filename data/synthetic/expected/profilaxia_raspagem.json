@@ -1,0 +1,26 @@
+{
+  "chief_complaint": null,
+  "history": null,
+  "findings": [
+    "Tártaro em cima da gengiva",
+    "Gengiva um pouco inflamada",
+    "Sangramento durante a raspagem"
+  ],
+  "teeth": [],
+  "procedures": [
+    {
+      "name": "Profilaxia com raspagem supragengival",
+      "tooth_fdi": [],
+      "details": "Raspagem com cureta e polimento com pasta e escova"
+    }
+  ],
+  "materials_anesthesia": ["Cureta", "Pasta de polimento"],
+  "medications_prescribed": [],
+  "guidance_given": [
+    "Escovar duas vezes por dia",
+    "Usar fio dental todo dia",
+    "Voltar para limpeza de seis em seis meses"
+  ],
+  "follow_up": "Limpeza de retorno em seis meses",
+  "uncertain_items": []
+}

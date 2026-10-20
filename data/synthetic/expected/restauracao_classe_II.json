@@ -1,0 +1,32 @@
+{
+  "chief_complaint": null,
+  "history": null,
+  "findings": [
+    "Cárie na oclusal, mesial e distal do dente 26"
+  ],
+  "teeth": [
+    {
+      "fdi_number": 26,
+      "surfaces": ["O", "M", "D"],
+      "note": "Primeiro molar superior esquerdo"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Restauração classe II em resina",
+      "tooth_fdi": [26],
+      "details": "Restauração MOD com matriz e cunha para reconstruir o ponto de contato; ajuste verificado com papel carbono"
+    }
+  ],
+  "materials_anesthesia": [
+    "Anestesia local",
+    "Matriz",
+    "Cunha",
+    "Resina composta",
+    "Papel carbono"
+  ],
+  "medications_prescribed": [],
+  "guidance_given": [],
+  "follow_up": null,
+  "uncertain_items": []
+}

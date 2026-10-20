@@ -1,0 +1,33 @@
+{
+  "chief_complaint": "Dor",
+  "history": null,
+  "findings": [],
+  "teeth": [
+    {
+      "fdi_number": 46,
+      "surfaces": [],
+      "note": "Primeiro molar inferior direito"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Abertura de câmara pulpar e preparo dos canais (sessão inicial de endodontia)",
+      "tooth_fdi": [46],
+      "details": "Polpa removida e canais limpos; sessão não concluída"
+    },
+    {
+      "name": "Medicação intracanal com hidróxido de cálcio",
+      "tooth_fdi": [46],
+      "details": "Fechamento com selamento temporário"
+    }
+  ],
+  "materials_anesthesia": [
+    "Anestesia local",
+    "Hidróxido de cálcio",
+    "Selamento temporário"
+  ],
+  "medications_prescribed": [],
+  "guidance_given": [],
+  "follow_up": "Retorno em uma semana para concluir o tratamento de canal",
+  "uncertain_items": []
+}

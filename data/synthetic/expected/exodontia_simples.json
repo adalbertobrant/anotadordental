@@ -1,0 +1,30 @@
+{
+  "chief_complaint": "O dente 18 estava incomodando",
+  "history": null,
+  "findings": [],
+  "teeth": [
+    {
+      "fdi_number": 18,
+      "surfaces": [],
+      "note": "Terceiro molar (siso) do lado direito"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Exodontia simples",
+      "tooth_fdi": [18],
+      "details": "Extração simples, dente saiu inteiro, hemostasia com gaze após o procedimento"
+    }
+  ],
+  "materials_anesthesia": ["Lidocaína", "Gaze"],
+  "medications_prescribed": [],
+  "guidance_given": [
+    "Morder a gaze por cerca de trinta minutos",
+    "Não enxaguar hoje",
+    "Não escovar o lado operado",
+    "Comida mole e fria nas primeiras horas",
+    "Ligar na clínica se voltar a sangrar"
+  ],
+  "follow_up": null,
+  "uncertain_items": []
+}

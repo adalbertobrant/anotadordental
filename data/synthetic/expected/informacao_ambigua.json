@@ -1,0 +1,16 @@
+{
+  "chief_complaint": null,
+  "history": null,
+  "findings": [],
+  "teeth": [],
+  "procedures": [],
+  "materials_anesthesia": [],
+  "medications_prescribed": [],
+  "guidance_given": [],
+  "follow_up": null,
+  "uncertain_items": [
+    "Remédio citado pela paciente sem entendimento claro: 'não entendi bem o que ela falou dos remédios'",
+    "Frequência do remédio ambígua: 'de manhã' ou 'de noite', não ficou claro",
+    "Dente citado como 'o dente do meio', sem informação suficiente para identificá-lo"
+  ]
+}

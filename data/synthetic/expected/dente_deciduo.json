@@ -1,0 +1,30 @@
+{
+  "chief_complaint": "Dente estragado, soltando e incomodando a criança",
+  "history": "Criança de cinco anos",
+  "findings": [
+    "Dente 64 bem estragado e soltando"
+  ],
+  "teeth": [
+    {
+      "fdi_number": 64,
+      "surfaces": [],
+      "note": "Dente de leite (decíduo); primeiro molar superior esquerdo"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Exodontia de dente decíduo",
+      "tooth_fdi": [64],
+      "details": "Remoção do dente de leite; extração saiu fácil"
+    }
+  ],
+  "materials_anesthesia": ["Lidocaína"],
+  "medications_prescribed": [],
+  "guidance_given": [
+    "Comida mole hoje",
+    "Não escovar o lado no primeiro dia",
+    "O dente de leite será substituído pelo permanente"
+  ],
+  "follow_up": "Retorno apenas se houver dor ou sangramento",
+  "uncertain_items": []
+}

@@ -1,0 +1,28 @@
+{
+  "chief_complaint": null,
+  "history": "Restauração no dente 45 feita há sete dias",
+  "findings": [
+    "Sem dor",
+    "Sem sensibilidade",
+    "Restauração íntegra",
+    "Contato bom",
+    "Gengiva sem irritação",
+    "Paciente escova normal"
+  ],
+  "teeth": [
+    {
+      "fdi_number": 45,
+      "surfaces": [],
+      "note": "Segundo pré-molar inferior direito; restauração avaliada no retorno"
+    }
+  ],
+  "procedures": [],
+  "materials_anesthesia": [],
+  "medications_prescribed": [],
+  "guidance_given": [
+    "Escovar bem",
+    "Usar fio dental"
+  ],
+  "follow_up": "Próxima limpeza em seis meses",
+  "uncertain_items": []
+}

@@ -1,0 +1,35 @@
+{
+  "chief_complaint": null,
+  "history": null,
+  "findings": [
+    "Inflamação com pus na gengiva do dente 31"
+  ],
+  "teeth": [
+    {
+      "fdi_number": 31,
+      "surfaces": [],
+      "note": "Canino superior esquerdo; inflamação com pus na gengiva"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Abertura e drenagem",
+      "tooth_fdi": [31],
+      "details": "Abertura do dente com drenagem de pus"
+    }
+  ],
+  "materials_anesthesia": ["Anestesia local"],
+  "medications_prescribed": [
+    {
+      "name": "Amoxicilina",
+      "dose": "500 mg",
+      "frequency": "de 8 em 8 horas",
+      "duration": "7 dias"
+    }
+  ],
+  "guidance_given": [
+    "Terminar todo o antibiótico, mesmo melhorando"
+  ],
+  "follow_up": "Retorno em três dias para avaliar a gengiva",
+  "uncertain_items": []
+}

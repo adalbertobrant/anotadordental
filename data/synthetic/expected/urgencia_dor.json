@@ -1,0 +1,26 @@
+{
+  "chief_complaint": "Dor há cerca de quatro dias",
+  "history": "Dor pior com coisas geladas e à noite",
+  "findings": [
+    "Dor à palpação no dente 47"
+  ],
+  "teeth": [
+    {
+      "fdi_number": 47,
+      "surfaces": [],
+      "note": "Segundo molar inferior direito; dor à palpação"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Procedimento de urgência: limpeza de resíduos e curativo",
+      "tooth_fdi": [47],
+      "details": "Radiografia não realizada; diagnóstico não definido nesta consulta"
+    }
+  ],
+  "materials_anesthesia": ["Curativo"],
+  "medications_prescribed": [],
+  "guidance_given": [],
+  "follow_up": "Avaliar melhor no retorno",
+  "uncertain_items": []
+}

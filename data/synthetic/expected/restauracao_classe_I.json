@@ -1,0 +1,28 @@
+{
+  "chief_complaint": null,
+  "history": null,
+  "findings": [
+    "Buraquinho pequeno na oclusal do dente 36"
+  ],
+  "teeth": [
+    {
+      "fdi_number": 36,
+      "surfaces": ["O"],
+      "note": "Primeiro molar inferior esquerdo"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Restauração classe I em resina",
+      "tooth_fdi": [36],
+      "details": "Abertura, remoção do tecido cariado e restauração da oclusal com resina composta"
+    }
+  ],
+  "materials_anesthesia": ["Mepivacaína", "Resina composta"],
+  "medications_prescribed": [],
+  "guidance_given": [
+    "Não mastigar nada do lado anestesiado até o anestésico passar, para evitar morder o lábio"
+  ],
+  "follow_up": "Sem retorno agendado; voltar apenas se houver sensibilidade",
+  "uncertain_items": []
+}

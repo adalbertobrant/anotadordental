@@ -1,0 +1,21 @@
+{
+  "chief_complaint": "Dor e sensibilidade depois da restauração feita ontem",
+  "history": null,
+  "findings": [],
+  "teeth": [],
+  "procedures": [],
+  "materials_anesthesia": [],
+  "medications_prescribed": [
+    {
+      "name": "Paracetamol",
+      "dose": "500 mg (um comprimido)",
+      "frequency": "de 6 em 6 horas",
+      "duration": "3 dias"
+    }
+  ],
+  "guidance_given": [
+    "Evitar coisas geladas"
+  ],
+  "follow_up": "Voltar se não melhorar em três dias",
+  "uncertain_items": []
+}

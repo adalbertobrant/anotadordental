@@ -1,0 +1,29 @@
+{
+  "chief_complaint": null,
+  "history": null,
+  "findings": [
+    "Buraquinho na oclusal do dente 36"
+  ],
+  "teeth": [
+    {
+      "fdi_number": 36,
+      "surfaces": ["O"],
+      "note": "Citado de formas diferentes na consulta: 'primeiro molar inferior esquerdo', 'o 36' e 'molar de baixo do lado esquerdo'"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Restauração em resina",
+      "tooth_fdi": [36],
+      "details": "Restauração da oclusal"
+    }
+  ],
+  "materials_anesthesia": ["Resina"],
+  "medications_prescribed": [],
+  "guidance_given": [],
+  "follow_up": null,
+  "uncertain_items": [
+    "Trecho 'dente noventa e um': número de dente inválido, fora da notação FDI",
+    "Paciente disse que 'o dente noventa e um' também doía; dente não identificado"
+  ]
+}
