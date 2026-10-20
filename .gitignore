@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# uv
+uv.lock.bak
+
+# Tooling
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Runtime data (never commit metrics or local artifacts)
+metrics.jsonl
+*.log
+data/synthetic/audio/*.wav
+data/synthetic/audio/*.mp3
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Secrets / local env
+.env

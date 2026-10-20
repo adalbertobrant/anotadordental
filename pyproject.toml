@@ -1,0 +1,76 @@
+[project]
+name = "dentanote"
+version = "0.1.0"
+description = "DentaNote — assistente 100% local de evolução clínica odontológica (transcreve, extrai e redige rascunho de evolução sem sair da sua máquina)."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [{ name = "Adalberto" }]
+keywords = ["odontologia", "prontuario", "whisper", "ollama", "lgpd", "offline"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Healthcare Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+    "faster-whisper==1.2.1",
+    "httpx==0.28.1",
+    "pydantic==2.12.5",
+    "pydantic-settings==2.13.1",
+    "streamlit==1.59.1",
+    "typer==0.21.0",
+]
+
+[project.scripts]
+dentanote = "dentanote.cli:app"
+
+[project.optional-dependencies]
+dev = [
+    "mypy==1.19.1",
+    "pytest==8.4.2",
+    "pytest-socket==0.7.0",
+    "ruff==0.15.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dentanote"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C4", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+packages = ["dentanote"]
+warn_unused_configs = true
+warn_redundant_casts = true
+no_implicit_optional = true
+check_untyped_defs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: testes que exigem Ollama/Whisper reais (não rodam no CI)",
+]
+addopts = "-ra"
+
+[tool.uv]
+package = true
