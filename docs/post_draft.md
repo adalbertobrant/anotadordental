@@ -30,8 +30,9 @@ esse tempo compõe em mais do que uma consulta inteira de trabalho.
 
 ## 2. Demo
 
-[INSERIR: GIF ou vídeo curto da demo — `dentanote run consulta.wav` no terminal
-e a interface Streamlit abrindo com a nota pronta + aviso fixo de rascunho]
+▶ **[Vídeo da demo (2 min)](https://github.com/adalbertobrant/anotadordental/blob/main/video/dentanote-demo.webm)**
+— `dentanote run consulta.wav` no terminal e a interface Streamlit abrindo com a
+nota pronta + aviso fixo de rascunho.
 
 A demo real que rodei: dois casos sintéticos, do áudio à nota, com tempo
 registrado em `metrics.jsonl` (só durações e contagens — zero PHI, e há teste

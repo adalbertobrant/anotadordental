@@ -14,9 +14,9 @@ saia do computador.
 
 ## 1. Demo
 
-> **[INSERIR: GIF/vídeo curto (~30 s)]** — gravação da tela: interface → botão
-> *✨ Carregar exemplo sintético* → abas 2 a 5 → rascunho copiado. Enquanto isso,
-> a mesma ponta a ponta em terminal (dados 100% sintéticos):
+▶ **[Assista à demo em vídeo (2 min)](video/dentanote-demo.webm)** — gravação da
+tela: interface → botão *✨ Carregar exemplo sintético* → abas 2 a 5 → rascunho
+copiado. Enquanto isso, a mesma ponta a ponta em terminal (dados 100% sintéticos):
 
 ```console
 $ uv run dentanote run data/synthetic/audio/restauracao_classe_I.wav

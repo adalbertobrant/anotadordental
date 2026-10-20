@@ -14,9 +14,9 @@ of patient data leaving the computer.
 
 ## 1. Demo
 
-> **[INSERIR: short GIF/video (~30 s)]** — screen recording: interface →
-> *✨ Load synthetic sample* → tabs 2 to 5 → draft copied. Meanwhile, the same
-> end-to-end run in a terminal (100% synthetic data):
+▶ **[Watch the demo video (2 min)](video/dentanote-demo.webm)** — screen
+recording: interface → *✨ Load synthetic sample* → tabs 2 to 5 → draft copied.
+Meanwhile, the same end-to-end run in a terminal (100% synthetic data):
 
 ```console
 $ uv run dentanote run data/synthetic/audio/restauracao_classe_I.wav
