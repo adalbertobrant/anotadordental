@@ -31,3 +31,7 @@ data/synthetic/audio/*.mp3
 
 # Secrets / local env
 .env
+
+# Local-only notes (not part of the project distribution)
+GRAVAR.md
+PROMPT.md
