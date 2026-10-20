@@ -66,20 +66,34 @@ def transcribe_file(
 
     from dentanote.prompts import WHISPER_INITIAL_PROMPT
 
-    device = "auto" if settings.whisper_device == "auto" else settings.whisper_device
-    model = _load_model(settings.whisper_model, device, settings.whisper_compute_type)
+    prompt = WHISPER_INITIAL_PROMPT if settings.initial_prompt_enabled else None
 
-    started = time.perf_counter()
-    try:
+    def _transcribe(device: str):  # type: ignore[no-untyped-def]
+        model = _load_model(settings.whisper_model, device, settings.whisper_compute_type)
         segments_iter, info = model.transcribe(  # type: ignore[attr-defined]
             str(path),
             language=settings.language,
             vad_filter=settings.vad_filter,
-            initial_prompt=WHISPER_INITIAL_PROMPT if settings.initial_prompt_enabled else None,
+            initial_prompt=prompt,
         )
-        segments = list(segments_iter)
+        return list(segments_iter), info
+
+    started = time.perf_counter()
+    try:
+        segments, info = _transcribe(settings.whisper_device)
     except Exception as exc:  # pragma: no cover - depends on local codecs/GPU
-        raise TranscriptionError(f"falha ao transcrever o áudio: {exc}") from exc
+        if settings.whisper_device != "auto":
+            raise TranscriptionError(f"falha ao transcrever o áudio: {exc}") from exc
+        # "auto" chose CUDA but the GPU stack does not work on this machine
+        # (typical: missing CUDA runtime libs). Fall back to CPU instead of failing.
+        logger.warning("GPU unusable for Whisper (%s) — retrying on CPU", type(exc).__name__)
+        started = time.perf_counter()
+        try:
+            segments, info = _transcribe("cpu")
+        except Exception as fallback_exc:
+            raise TranscriptionError(
+                f"falha ao transcrever o áudio: {fallback_exc}"
+            ) from fallback_exc
     elapsed = time.perf_counter() - started
 
     text = " ".join(segment.text.strip() for segment in segments).strip()
