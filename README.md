@@ -1,5 +1,7 @@
 # DentaNote 🦷
 
+> 🇧🇷 Você está lendo o README em português. **[Read this README in English](README.en.md).**
+
 **Redigir a evolução de cada consulta consome de 3 a 10 minutos do dia do dentista** —
 tempo esse que some em tarefas administrativas. **O DentaNote transcreve a gravação
 da consulta com um modelo de IA open-source rodando na sua máquina e devolve um
@@ -139,7 +141,9 @@ uv run streamlit run src/dentanote/app.py
 Cinco abas seguindo o fluxo: **Entrada** (upload, gravação do navegador ou texto
 colado — com botão *✨ Carregar exemplo sintético* para a demo em 1 clique) →
 **Transcrição** editável → **Dados estruturados** editáveis → **Evolução
-clínica** (com copiar/baixar) → **Métricas**. O aviso *"Rascunho gerado por IA
+clínica** (com copiar/baixar) → **Métricas**. O idioma da interface alterna
+PT/EN no topo (padrão PT-BR; a nota renderizada continua em formato clínico
+PT-BR, o padrão do prontuário brasileiro). O aviso *"Rascunho gerado por IA
 local. Revise antes de salvar no prontuário. Nenhum dado sai deste computador"*
 fica visível o tempo todo, e os itens de `uncertain_items` aparecem destacados ⚠.
 

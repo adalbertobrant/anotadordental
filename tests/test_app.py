@@ -129,3 +129,29 @@ def test_metrics_tab_shows_only_sizes_and_timings() -> None:
     assert set(metrics) >= {"total_s", "extraction_s", "prompt_tokens", "llm_model"}
     assert "transcript" not in metrics
     assert "note" not in metrics
+
+
+def test_language_toggle_switches_ui_to_english() -> None:
+    app = _app()
+    app.run()
+    lang = next(radio for radio in app.radio if radio.label == "Idioma / Language")
+    lang.set_value("EN").run()
+    assert not app.exception
+    assert app.session_state["lang"] == "EN"
+    assert [tab.label for tab in app.tabs] == [
+        "1️⃣ Input",
+        "2️⃣ Transcript",
+        "3️⃣ Structured data",
+        "4️⃣ Clinical note",
+        "5️⃣ Metrics",
+    ]
+    banners = [element.value for element in app.warning]
+    assert any("AI-generated clinical note draft" in value for value in banners), banners
+
+
+def test_language_defaults_to_portuguese() -> None:
+    app = _app()
+    app.run()
+    lang = next(radio for radio in app.radio if radio.label == "Idioma / Language")
+    assert lang.value == "PT"
+    assert app.tabs[0].label == "1️⃣ Entrada"

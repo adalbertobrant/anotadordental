@@ -3,6 +3,10 @@
 Tabs follow the workflow: input -> editable transcript -> editable structured
 data -> final draft (copy) -> run metrics. The professional is the authority:
 any manual edit feeds the final text, and the draft banner is always visible.
+
+The UI language toggles PT/EN in the header (default PT-BR). The rendered note
+itself stays in PT-BR clinical format either way: it is the artifact meant for
+the Brazilian record, not UI text.
 """
 
 from __future__ import annotations
@@ -36,6 +40,151 @@ SUPPORTED_UPLOAD = ("wav", "mp3", "m4a", "ogg", "webm")
 LIST_FIELDS = ("findings", "materials_anesthesia", "guidance_given", "uncertain_items")
 TEXT_FIELDS = ("chief_complaint", "history", "follow_up")
 JSON_FIELDS = ("teeth", "procedures", "medications_prescribed")
+
+# UI strings. The PT banner comes from settings (configurable); everything else
+# lives here so both languages stay in sync in one place.
+STRINGS: dict[str, dict[str, str]] = {
+    "pt": {
+        "subtitle": "Evolução clínica odontológica gerada 100% localmente — "
+        "o áudio e o texto nunca saem deste computador.",
+        "offline": "Ollama indisponível",
+        "tab_input": "1️⃣ Entrada",
+        "tab_transcript": "2️⃣ Transcrição",
+        "tab_data": "3️⃣ Dados estruturados",
+        "tab_draft": "4️⃣ Evolução clínica",
+        "tab_metrics": "5️⃣ Métricas",
+        "source_header": "Fonte da consulta",
+        "load_sample": "✨ Carregar exemplo sintético (demo em 1 clique)",
+        "load_spinner": "Extraindo com o modelo local...",
+        "load_success": "Exemplo carregado. Veja as abas 2 a 5.",
+        "how_to_input": "Como você quer entrar com a consulta?",
+        "opt_paste": "Texto colado",
+        "opt_audio": "Arquivo de áudio",
+        "opt_record": "Gravar agora",
+        "paste_label": "Cole a transcrição (ou digite um resumo ditado)",
+        "paste_placeholder": "Paciente Exemplo 01, retorno. Refere dor no dente ...",
+        "generate": "Gerar rascunho",
+        "extract_spinner": "Extraindo dados clínicos com o modelo local...",
+        "audio_spinner": "Transcrevendo com Whisper (isso pode demorar no primeiro uso)...",
+        "record_spinner": "Transcrevendo a gravação...",
+        "done": "Rascunho gerado — revise nas próximas abas.",
+        "audio_uploader": "wav, mp3, m4a, ogg ou webm",
+        "transcribe": "Transcrever e gerar rascunho",
+        "record_label": "Grave o resumo da consulta",
+        "record_transcribe": "Transcrever gravação e gerar rascunho",
+        "empty_input": "Gere um rascunho na aba **Entrada** (ou carregue o exemplo sintético).",
+        "empty_generic": "Gere um rascunho na aba **Entrada**.",
+        "transcript_sub": "Transcrição (editável)",
+        "transcript_caption": "Corrija erros de reconhecimento antes de extrair de novo — "
+        "o texto é a fonte de verdade.",
+        "transcript_label": "Transcrição",
+        "reextract": "🔁 Re-extrair com esta transcrição",
+        "reextract_spinner": "Extraindo com o modelo local...",
+        "reextract_success": "Extração atualizada.",
+        "data_sub": "Dados estruturados (editáveis)",
+        "data_caption": "Você é a autoridade final: qualquer edição aqui muda o texto da aba Evolução.",
+        "chief": "Queixa principal",
+        "history": "Histórico",
+        "follow_up": "Retorno",
+        "findings": "Achados (1 por linha)",
+        "materials": "Materiais e anestésicos (1 por linha)",
+        "guidance": "Orientações (1 por linha)",
+        "uncertain_area": "⚠ Conferir antes de salvar (1 por linha)",
+        "teeth_json": "Dentes (JSON)",
+        "procedures_json": "Procedimentos (JSON)",
+        "meds_json": "Medicamentos (JSON)",
+        "apply": "💾 Aplicar alterações ao rascunho",
+        "apply_error": "Não consegui aplicar as alterações: {error}",
+        "apply_success": "Rascunho atualizado com suas alterações (aba Evolução).",
+        "uncertain_box": "⚠ Conferir antes de salvar:",
+        "draft_label": "Rascunho de evolução clínica",
+        "download": "⬇️ Baixar rascunho (.txt)",
+        "download_name": "dentanote_rascunho.txt",
+        "draft_caption": "Copie (ícone no canto superior direito do bloco acima) e cole no "
+        "prontuário **após revisar**. O texto é montado por template determinístico — "
+        "nada é inventado nesta etapa.",
+        "metrics_sub": "Métricas da execução",
+        "metrics_caption": "Somente tempos, contagens e tamanhos — nenhum dado clínico é registrado.",
+        "metrics_llm": "**Modelo LLM:**",
+        "metrics_whisper": "**Whisper:**",
+        "metrics_repairs": "**Tentativas de reparo:**",
+        "metrics_uncertain": "**Itens a conferir:**",
+        "metrics_file": "Arquivo de métricas: `{path}` (JSONL local, sem PHI).",
+        "footer": "DentaNote é uma ferramenta de apoio: o profissional revisa e assume "
+        "a evolução. Não faz diagnóstico nem sugere conduta. Dados 100% sintéticos "
+        "nas demostrações.",
+    },
+    "en": {
+        "subtitle": "Dental clinical notes generated 100% locally — audio and text "
+        "never leave this computer.",
+        "offline": "Ollama unavailable",
+        "tab_input": "1️⃣ Input",
+        "tab_transcript": "2️⃣ Transcript",
+        "tab_data": "3️⃣ Structured data",
+        "tab_draft": "4️⃣ Clinical note",
+        "tab_metrics": "5️⃣ Metrics",
+        "source_header": "Appointment source",
+        "load_sample": "✨ Load synthetic sample (1-click demo)",
+        "load_spinner": "Extracting with the local model...",
+        "load_success": "Sample loaded. See tabs 2 to 5.",
+        "how_to_input": "How do you want to enter the appointment?",
+        "opt_paste": "Pasted text",
+        "opt_audio": "Audio file",
+        "opt_record": "Record now",
+        "paste_label": "Paste the transcript (or type a dictated summary)",
+        "paste_placeholder": "Sample Patient 01, recall. Reports pain in tooth ...",
+        "generate": "Generate draft",
+        "extract_spinner": "Extracting clinical data with the local model...",
+        "audio_spinner": "Transcribing with Whisper (this may take a while on first use)...",
+        "record_spinner": "Transcribing the recording...",
+        "done": "Draft generated — review it in the next tabs.",
+        "audio_uploader": "wav, mp3, m4a, ogg or webm",
+        "transcribe": "Transcribe and generate draft",
+        "record_label": "Record the appointment summary",
+        "record_transcribe": "Transcribe recording and generate draft",
+        "empty_input": "Generate a draft in the **Input** tab (or load the synthetic sample).",
+        "empty_generic": "Generate a draft in the **Input** tab.",
+        "transcript_sub": "Transcript (editable)",
+        "transcript_caption": "Fix recognition errors before extracting again — the text is "
+        "the source of truth.",
+        "transcript_label": "Transcript",
+        "reextract": "🔁 Re-extract with this transcript",
+        "reextract_spinner": "Extracting with the local model...",
+        "reextract_success": "Extraction updated.",
+        "data_sub": "Structured data (editable)",
+        "data_caption": "You are the final authority: any edit here changes the Clinical note tab.",
+        "chief": "Chief complaint",
+        "history": "History",
+        "follow_up": "Follow-up",
+        "findings": "Findings (one per line)",
+        "materials": "Materials and anesthetics (one per line)",
+        "guidance": "Guidance given (one per line)",
+        "uncertain_area": "⚠ Review before saving (one per line)",
+        "teeth_json": "Teeth (JSON)",
+        "procedures_json": "Procedures (JSON)",
+        "meds_json": "Medications (JSON)",
+        "apply": "💾 Apply changes to the draft",
+        "apply_error": "Could not apply the changes: {error}",
+        "apply_success": "Draft updated with your changes (Clinical note tab).",
+        "uncertain_box": "⚠ Review before saving:",
+        "draft_label": "Clinical note draft",
+        "download": "⬇️ Download draft (.txt)",
+        "download_name": "dentanote_draft.txt",
+        "draft_caption": "Copy (icon at the top right of the block above) and paste into the "
+        "record **after reviewing**. The text is assembled by a deterministic template — "
+        "nothing is invented at this step. The note itself is rendered in PT-BR clinical "
+        "format, the standard for Brazilian records.",
+        "metrics_sub": "Run metrics",
+        "metrics_caption": "Timings, counts and sizes only — no clinical data is recorded.",
+        "metrics_llm": "**LLM model:**",
+        "metrics_whisper": "**Whisper:**",
+        "metrics_repairs": "**Repair attempts:**",
+        "metrics_uncertain": "**Items to review:**",
+        "metrics_file": "Metrics file: `{path}` (local JSONL, no PHI).",
+        "footer": "DentaNote is a support tool: the professional reviews and owns the note. "
+        "It makes no diagnosis and suggests no treatment. 100% synthetic data in the demos.",
+    },
+}
 
 
 def _repo_root() -> Path | None:
@@ -147,137 +296,150 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown('<p class="dentanote-title">🦷 DentaNote</p>', unsafe_allow_html=True)
-st.markdown(
-    '<p class="dentanote-sub">Evolução clínica odontológica gerada 100% localmente — '
-    "o áudio e o texto nunca saem deste computador.</p>",
-    unsafe_allow_html=True,
+# Language toggle first: every string below reads the chosen language.
+st.radio(
+    "Idioma / Language",
+    ("PT", "EN"),
+    horizontal=True,
+    key="lang",
+    label_visibility="collapsed",
 )
+T = STRINGS[st.session_state.get("lang", "PT").lower()]
+
+title_col, _pad = st.columns([5, 1])
+with title_col:
+    st.markdown('<p class="dentanote-title">🦷 DentaNote</p>', unsafe_allow_html=True)
+    st.markdown(
+        f'<p class="dentanote-sub">{T["subtitle"]}</p>',
+        unsafe_allow_html=True,
+    )
 
 online_dot = "🟢" if status["ollama_alive"] else "🔴"
 online_cls = "dentanote-ok" if status["ollama_alive"] else "dentanote-bad"
-online_text = "local/online" if status["ollama_alive"] else "Ollama indisponível"
+online_text = "local/online" if status["ollama_alive"] else T["offline"]
 st.markdown(
     f'<p class="{online_cls}">{online_dot} {online_text} · LLM: <code>{status["llm_model"]}</code>'
     f" · Whisper: <code>{status['whisper_model']}</code> · v{__version__}</p>",
     unsafe_allow_html=True,
 )
-st.warning(settings.draft_banner)
+if st.session_state.get("lang", "PT") == "EN":
+    st.warning(
+        "AI-generated clinical note draft. Review before saving to the record. "
+        "No data leaves this computer."
+    )
+else:
+    st.warning(settings.draft_banner)
 
 tab_input, tab_transcript, tab_data, tab_draft, tab_metrics = st.tabs(
-    ["1️⃣ Entrada", "2️⃣ Transcrição", "3️⃣ Dados estruturados", "4️⃣ Evolução clínica", "5️⃣ Métricas"]
+    [T["tab_input"], T["tab_transcript"], T["tab_data"], T["tab_draft"], T["tab_metrics"]]
 )
 
 # ------------------------------------------------------------------- 1. input
 with tab_input:
-    st.subheader("Fonte da consulta")
+    st.subheader(T["source_header"])
     sample = _sample_transcript()
-    if sample and st.button("✨ Carregar exemplo sintético (demo em 1 clique)", type="primary"):
-        with st.spinner("Extraindo com o modelo local..."):
+    if sample and st.button(T["load_sample"], type="primary"):
+        with st.spinner(T["load_spinner"]):
             _run_and_store("exemplo", text=sample)
-        st.success("Exemplo carregado. Veja as abas 2 a 5.")
+        st.success(T["load_success"])
 
     source = st.radio(
-        "Como você quer entrar com a consulta?",
-        ["Texto colado", "Arquivo de áudio", "Gravar agora"],
+        T["how_to_input"],
+        [T["opt_paste"], T["opt_audio"], T["opt_record"]],
         horizontal=True,
     )
 
-    if source == "Texto colado":
+    if source == T["opt_paste"]:
         pasted = st.text_area(
-            "Cole a transcrição (ou digite um resumo ditado)",
+            T["paste_label"],
             height=220,
-            placeholder="Paciente Exemplo 01, retorno. Refere dor no dente ...",
+            placeholder=T["paste_placeholder"],
         )
-        if st.button("Gerar rascunho", type="primary", disabled=not pasted.strip()):
-            with st.spinner("Extraindo dados clínicos com o modelo local..."):
+        if st.button(T["generate"], type="primary", disabled=not pasted.strip()):
+            with st.spinner(T["extract_spinner"]):
                 _run_and_store("texto", text=pasted)
-            st.success("Rascunho gerado — revise nas próximas abas.")
+            st.success(T["done"])
 
-    elif source == "Arquivo de áudio":
-        uploaded = st.file_uploader("wav, mp3, m4a, ogg ou webm", type=list(SUPPORTED_UPLOAD))
-        if uploaded is not None and st.button("Transcrever e gerar rascunho", type="primary"):
+    elif source == T["opt_audio"]:
+        uploaded = st.file_uploader(T["audio_uploader"], type=list(SUPPORTED_UPLOAD))
+        if uploaded is not None and st.button(T["transcribe"], type="primary"):
             suffix = Path(uploaded.name).suffix or ".wav"
             path = _save_upload(uploaded.getvalue(), suffix)
-            with st.spinner("Transcrevendo com Whisper (isso pode demorar no primeiro uso)..."):
+            with st.spinner(T["audio_spinner"]):
                 _run_and_store("arquivo", audio_path=path)
             path.unlink(missing_ok=True)
-            st.success("Rascunho gerado — revise nas próximas abas.")
+            st.success(T["done"])
 
     else:
-        audio_bytes = st.audio_input("Grave o resumo da consulta")
-        if audio_bytes and st.button("Transcrever gravação e gerar rascunho", type="primary"):
+        audio_bytes = st.audio_input(T["record_label"])
+        if audio_bytes and st.button(T["record_transcribe"], type="primary"):
             path = _save_upload(audio_bytes, ".wav")
-            with st.spinner("Transcrevendo a gravação..."):
+            with st.spinner(T["record_spinner"]):
                 _run_and_store("gravacao", audio_path=path)
             path.unlink(missing_ok=True)
-            st.success("Rascunho gerado — revise nas próximas abas.")
+            st.success(T["done"])
 
 # --------------------------------------------------------------- 2. transcript
 with tab_transcript:
     if not st.session_state.get("has_result"):
-        st.info("Gere um rascunho na aba **Entrada** (ou carregue o exemplo sintético).")
+        st.info(T["empty_input"])
     else:
-        st.subheader("Transcrição (editável)")
-        st.caption(
-            "Corrija erros de reconhecimento antes de extrair de novo — o texto é a fonte de verdade."
-        )
+        st.subheader(T["transcript_sub"])
+        st.caption(T["transcript_caption"])
         st.text_area(
-            "Transcrição",
+            T["transcript_label"],
             key="transcript_editor",
             height=300,
         )
         col_a, col_b = st.columns([1, 3])
         with col_a:
-            if st.button("🔁 Re-extrair com esta transcrição"):
+            if st.button(T["reextract"]):
                 edited = st.session_state.get("transcript_editor", "").strip()
                 if edited:
-                    with st.spinner("Extraindo com o modelo local..."):
+                    with st.spinner(T["reextract_spinner"]):
                         _run_and_store("transcrição editada", text=edited)
-                    st.success("Extração atualizada.")
+                    st.success(T["reextract_success"])
 
 # ----------------------------------------------------------------- 3. structs
 with tab_data:
     if not st.session_state.get("has_result"):
-        st.info("Gere um rascunho na aba **Entrada**.")
+        st.info(T["empty_generic"])
     else:
-        st.subheader("Dados estruturados (editáveis)")
-        st.caption("Você é a autoridade final: qualquer edição aqui muda o texto da aba Evolução.")
+        st.subheader(T["data_sub"])
+        st.caption(T["data_caption"])
 
         col1, col2 = st.columns(2)
         with col1:
-            st.text_input("Queixa principal", key="edit_chief_complaint")
-            st.text_input("Histórico", key="edit_history")
-            st.text_input("Retorno", key="edit_follow_up")
-            st.text_area("Achados (1 por linha)", key="edit_findings", height=110)
-            st.text_area(
-                "Materiais e anestésicos (1 por linha)", key="edit_materials_anesthesia", height=90
-            )
+            st.text_input(T["chief"], key="edit_chief_complaint")
+            st.text_input(T["history"], key="edit_history")
+            st.text_input(T["follow_up"], key="edit_follow_up")
+            st.text_area(T["findings"], key="edit_findings", height=110)
+            st.text_area(T["materials"], key="edit_materials_anesthesia", height=90)
         with col2:
-            st.text_area("Orientações (1 por linha)", key="edit_guidance_given", height=110)
+            st.text_area(T["guidance"], key="edit_guidance_given", height=110)
             st.text_area(
-                "⚠ Conferir antes de salvar (1 por linha)",
+                T["uncertain_area"],
                 key="edit_uncertain_items",
                 height=90,
             )
-            st.text_area("Dentes (JSON)", key="edit_teeth", height=110)
-            st.text_area("Procedimentos (JSON)", key="edit_procedures", height=110)
-            st.text_area("Medicamentos (JSON)", key="edit_medications_prescribed", height=110)
+            st.text_area(T["teeth_json"], key="edit_teeth", height=110)
+            st.text_area(T["procedures_json"], key="edit_procedures", height=110)
+            st.text_area(T["meds_json"], key="edit_medications_prescribed", height=110)
 
-        if st.button("💾 Aplicar alterações ao rascunho"):
+        if st.button(T["apply"]):
             try:
                 edited_note = _read_note_from_widgets()
             except (ValueError, json.JSONDecodeError) as exc:
-                st.error(f"Não consegui aplicar as alterações: {exc}")
+                st.error(T["apply_error"].format(error=exc))
             else:
                 st.session_state["note"] = edited_note
                 st.session_state["warnings"] = []
-                st.success("Rascunho atualizado com suas alterações (aba Evolução).")
+                st.success(T["apply_success"])
 
 # -------------------------------------------------------------------- 4. draft
 with tab_draft:
     if not st.session_state.get("has_result"):
-        st.info("Gere um rascunho na aba **Entrada**.")
+        st.info(T["empty_generic"])
     else:
         note: ClinicalNote = st.session_state.get("note") or ClinicalNote()
         rendered = render_note(note)
@@ -287,7 +449,7 @@ with tab_draft:
 
         if note.uncertain_items:
             st.markdown(
-                '<div class="dentanote-uncertain"><b>⚠ Conferir antes de salvar:</b><br>'
+                f'<div class="dentanote-uncertain"><b>{T["uncertain_box"]}</b><br>'
                 + "<br>".join(f"• {item}" for item in note.uncertain_items)
                 + "</div>",
                 unsafe_allow_html=True,
@@ -295,42 +457,35 @@ with tab_draft:
 
         # No widget key: the draft view must refresh from the template on every
         # rerun (edits belong to the structured/transcript tabs, ADR-002).
-        st.text_area("Rascunho de evolução clínica", value=rendered, height=420)
+        st.text_area(T["draft_label"], value=rendered, height=420)
 
         col_copy, col_download = st.columns([1, 1])
         with col_copy:
             st.code(rendered, language=None)  # Streamlit's built-in copy button
         with col_download:
             st.download_button(
-                "⬇️ Baixar rascunho (.txt)",
+                T["download"],
                 data=rendered,
-                file_name="dentanote_rascunho.txt",
+                file_name=T["download_name"],
                 mime="text/plain",
             )
-        st.caption(
-            "Copie (ícone no canto superior direito do bloco acima) e cole no prontuário "
-            "**após revisar**. O texto é montado por template determinístico — nada é "
-            "inventado nesta etapa."
-        )
+        st.caption(T["draft_caption"])
 
 # ----------------------------------------------------------------- 5. metrics
 with tab_metrics:
     metrics = st.session_state.get("metrics")
     if not metrics:
-        st.info("Gere um rascunho na aba **Entrada**.")
+        st.info(T["empty_generic"])
     else:
-        st.subheader("Métricas da execução")
-        st.caption("Somente tempos, contagens e tamanhos — nenhum dado clínico é registrado.")
+        st.subheader(T["metrics_sub"])
+        st.caption(T["metrics_caption"])
         st.json(metrics)
         st.markdown(
-            f"**Modelo LLM:** `{metrics.get('llm_model')}` · "
-            f"**Whisper:** `{metrics.get('whisper_model')}` · "
-            f"**Tentativas de reparo:** {metrics.get('repair_attempts')} · "
-            f"**Itens a conferir:** {metrics.get('uncertain_count')}"
+            f"{T['metrics_llm']} `{metrics.get('llm_model')}` · "
+            f"{T['metrics_whisper']} `{metrics.get('whisper_model')}` · "
+            f"{T['metrics_repairs']} {metrics.get('repair_attempts')} · "
+            f"{T['metrics_uncertain']} {metrics.get('uncertain_count')}"
         )
-        st.caption(f"Arquivo de métricas: `{settings.metrics_path}` (JSONL local, sem PHI).")
+        st.caption(T["metrics_file"].format(path=settings.metrics_path))
 
-st.caption(
-    "DentaNote é uma ferramenta de apoio: o profissional revisa e assume a evolução. "
-    "Não faz diagnóstico nem sugere conduta. Dados 100% sintéticos nas demostrações."
-)
+st.caption(T["footer"])

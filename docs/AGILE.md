@@ -41,6 +41,12 @@ final** (Conventional Commits). Nada de trabalho "solto": se a fase não passa e
 - **Issues e labels do GitHub ficaram pendentes de publicação.** O repositório ainda
   não tem remote; o quadro de backlog vive em `docs/AGILE.md` e as issues serão
   abertas no primeiro push (rotuladas por fase).
+- **Versão em inglês por exigência do desafio, não do PROMPT.** As regras do
+  DEV Challenge desclassificam post em outro idioma dos prêmios — então o repo
+  ganhou `README.en.md` e a UI do Streamlit um seletor PT/EN (padrão PT-BR; a
+  nota clínica renderizada continua em PT-BR, que é o artefato do prontuário).
+  O corpus de avaliação permanece em PT-BR odontológico por design: traduzi-lo
+  quebraria o vocabulário controlado do prompt e os `expected/`.
 
 ## Definição de pronto (DoD)
 
