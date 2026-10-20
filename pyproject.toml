@@ -31,7 +31,7 @@ dentanote = "dentanote.cli:app"
 [project.optional-dependencies]
 dev = [
     "mypy==1.19.1",
-    "pytest==8.4.2",
+    "pytest==9.1.1",
     "pytest-socket==0.7.0",
     "ruff==0.15.6",
 ]
