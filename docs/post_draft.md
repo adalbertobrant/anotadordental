@@ -99,17 +99,21 @@ hoje), ADRs curtos em `docs/AGILE.md`.
 
 ## 6. O que vem a seguir e convite à contribuição
 
-- [INSERIR: 2-3 itens de roadmap que fazem sentido para você — ex.: edição
-  manual dos campos na UI antes do texto final, mais vozes/idiomas de TTS,
-  empacotamento do corpus com mais casos]
+- **Edição manual dos campos na UI** antes do texto final — o profissional
+  ajusta item a item no Streamlit e só então renderiza o rascunho.
+- **Mais vozes e idiomas de TTS** em `scripts/make_synthetic_audio.py`
+  (corpus de áudio sintético em ES/EN para testar o pipeline bilíngue).
+- **Corpus maior**: empacotar mais cenários sintéticos (implantodontia,
+  periodontia, ortodontia) com o `expected/` correspondente — o
+  `scripts/evaluate.py` já mede o impacto de cada um.
 
 O repositório está aberto com licença MIT: se você trabalha com evolução
 clínica e quiser malhar o vocabulário de procedimentos ou adicionar casos do
 seu dia a dia (obrigatoriamente sintéticos), as issues e o `CONTRIBUTING.md`
 estão lá.
 
-[INSERIR: link do repositório] · [INSERIR: link do README com a seção de
-aviso legal/ético]
+[Repositório no GitHub](https://github.com/adalbertobrant/anotadordental) ·
+[Seção de aviso legal e ético do README](https://github.com/adalbertobrant/anotadordental#8-aviso-legal-e-ético)
 
 ---
 
