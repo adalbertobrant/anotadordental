@@ -16,6 +16,7 @@ import typer
 
 from dentanote import __version__
 from dentanote.config import get_settings
+from dentanote.doctor import run_checks, summarize
 from dentanote.extract import ExtractionError
 from dentanote.pipeline import PipelineResult, run_from_audio, run_from_text
 from dentanote.transcribe import TranscriptionError
@@ -111,6 +112,24 @@ def text_cmd(
     except ExtractionError as exc:
         _fail(str(exc))
     _emit(result, as_json, output)
+
+
+@app.command("doctor")
+def doctor_cmd() -> None:
+    """Check the local environment (Ollama, models, GPU, caches, metrics path)."""
+    checks = run_checks(get_settings())
+    icons = {"ok": "✔", "warn": "⚠", "fail": "✗"}
+    for check in checks:
+        color = {"ok": "green", "warn": "yellow", "fail": "red"}[check.status]
+        typer.secho(f"{icons[check.status]} {check.name}: {check.detail}", fg=color)
+    overall = summarize(checks)
+    if overall == "fail":
+        typer.secho("\nAmbiente incompleto — corrija os itens ✗ acima.", fg="red")
+        raise typer.Exit(1)
+    if overall == "warn":
+        typer.secho("\nAmbiente funcional, com avisos ⚠ (veja acima).", fg="yellow")
+    else:
+        typer.secho("\nTudo pronto: DentaNote 100% local.", fg="green")
 
 
 @app.command("run")

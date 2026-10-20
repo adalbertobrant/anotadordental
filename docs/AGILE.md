@@ -10,18 +10,34 @@ final** (Conventional Commits). Nada de trabalho "solto": se a fase não passa e
 | Sprint | Fase | Histórias | Critério de aceite | Status |
 | --- | --- | --- | --- | --- |
 | S0 | Fundação | Repo git, licença MIT, tooling, backlog | `uv sync` roda; repo versionado | ✅ |
-| S1 | Fase 1 | Esqueleto, `pyproject.toml`, `config.py`, `schema.py` + testes | `pytest` verde cobrindo FDI/schema/config | ⏳ |
-| S2 | Fase 2 | `transcribe.py`, `extract.py`, `prompts.py`, CLI com texto | JSON válido em ≥90% das transcrições sintéticas com Ollama real | pendente |
-| S3 | Fase 3 | `render.py` determinístico, `pipeline.py`, `metrics.py` | Texto final não inventa campo ausente; `metrics.jsonl` sem PHI (teste) | pendente |
-| S4 | Fase 4 | 12+ transcrições sintéticas, `evaluate.py`, comparação de modelos | `docs/results.md` gerado com precisão/recall/F1 e tabela de modelos | pendente |
-| S5 | Fase 5 | Interface Streamlit + `dentanote doctor` | Demo em 1 clique, aviso de rascunho fixo, status offline | pendente |
+| S1 | Fase 1 | Esqueleto, `pyproject.toml`, `config.py`, `schema.py` + testes | `pytest` verde cobrindo FDI/schema/config | ✅ |
+| S2 | Fase 2 | `transcribe.py`, `extract.py`, `prompts.py`, CLI com texto | JSON válido em ≥90% das transcrições sintéticas com Ollama real | ✅ (100% na 1ª tentativa, 24/24 execuções) |
+| S3 | Fase 3 | `render.py` determinístico, `pipeline.py`, `metrics.py` | Texto final não inventa campo ausente; `metrics.jsonl` sem PHI (teste) | ✅ |
+| S4 | Fase 4 | 12+ transcrições sintéticas, `evaluate.py`, comparação de modelos | `docs/results.md` gerado com precisão/recall/F1 e tabela de modelos | ✅ (2 modelos, 12 casos) |
+| S5 | Fase 5 | Interface Streamlit + `dentanote doctor` | Demo em 1 clique, aviso de rascunho fixo, status offline | ✅ (AppTest + CLI) |
 | S6 | Fase 6 | CI (GitHub Actions), README, docs, diagrama | CI verde: ruff + mypy + pytest em 3.11/3.12 | pendente |
 | S7 | Fase 7 | `docs/post_draft.md` | Post em PT-BR com tags e marcadores `[INSERIR: ...]` | pendente |
+
+## Ajustes de processo (retrospectiva)
+
+- **CLI entrou no commit da Fase 3.** O critério da Fase 2 era sobre a qualidade do JSON
+  (verificado com `extract_note` + Ollama real), mas publicar a extração sem nenhum
+  artefato de usuário não era um incremento entregável. `dentanote text` foi commitado
+  junto com o pipeline da Fase 3 — o critério da Fase 2 continuou medido antes disso.
+- **`expected/` alinhados ao vocabulário canônico do prompt.** Os nomes de procedimento
+  nas referências passaram a seguir o vocabulário controlado de `prompts.py`; a avaliação
+  usa matching tolerante (igualdade, contenção ou Jaccard ≥ 0,5) para não punir variação
+  legítima de redação.
+- **Lógica de avaliação mora em `src/dentanote/evaluation.py`**, com `scripts/evaluate.py`
+  como CLI fina: testes unitários sem subprocesso e o mesmo código no CI.
+- **`--disable-socket` no pytest por padrão** (pytest-socket): prova de que nada além do
+  Ollama local é necessário. Testes que falam com a porta local morta usam
+  `@pytest.mark.enable_socket`.
 
 ## Definição de pronto (DoD)
 
 1. Código e comentários em inglês; textos de UI/README em PT-BR.
-2. `ruff check .`, `ruff format --check .`, `mypy src` e `pytest` verdes antes do commit.
+2. `ruff check .`, `ruff format --check .`, `mypy src scripts` e `pytest` verdes antes do commit.
 3. Nenhum dado real de paciente; logs/métricas só com tempos, contagens e tamanhos.
 4. Saída do sistema sempre rotulada como rascunho revisável.
 5. Commit Conventional Commits pequeno, com o "porquê" no corpo.
