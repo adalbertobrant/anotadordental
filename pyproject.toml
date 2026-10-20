@@ -18,8 +18,9 @@ classifiers = [
 dependencies = [
     "faster-whisper==1.2.1",
     "httpx==0.28.1",
+    "pillow==13.0.0",
     "pydantic==2.12.5",
-    "pydantic-settings==2.13.1",
+    "pydantic-settings==2.14.2",
     "streamlit==1.59.1",
     "typer==0.21.0",
 ]
@@ -79,3 +80,8 @@ addopts = "-ra --disable-socket"
 
 [tool.uv]
 package = true
+# SECURITY: streamlit (1.59–1.66) caps `pillow<13`, but every Pillow release
+# with the SOF3 heap-buffer-overflow fixes (CVE-2026-112895 etc.) is >=13.0.0 —
+# there is no patched 12.x. Override the transitive cap so the lockfile gets the
+# patched version; validated by the Streamlit AppTest suite (tests/test_app.py).
+override-dependencies = ["pillow==13.0.0"]
