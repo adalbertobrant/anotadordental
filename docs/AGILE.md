@@ -16,7 +16,7 @@ final** (Conventional Commits). Nada de trabalho "solto": se a fase não passa e
 | S4 | Fase 4 | 12+ transcrições sintéticas, `evaluate.py`, comparação de modelos | `docs/results.md` gerado com precisão/recall/F1 e tabela de modelos | ✅ (2 modelos, 12 casos) |
 | S5 | Fase 5 | Interface Streamlit + `dentanote doctor` | Demo em 1 clique, aviso de rascunho fixo, status offline | ✅ (AppTest + CLI) |
 | S6 | Fase 6 | CI (GitHub Actions), README, docs, diagrama | CI verde: ruff + mypy + pytest em 3.11/3.12 | ✅ |
-| S7 | Fase 7 | `docs/post_draft.md` | Post em PT-BR com tags e marcadores `[INSERIR: ...]` | pendente |
+| S7 | Fase 7 | `docs/post_draft.md` | Post em PT-BR com tags e marcadores `[INSERIR: ...]` | ✅ |
 
 ## Ajustes de processo (retrospectiva)
 
