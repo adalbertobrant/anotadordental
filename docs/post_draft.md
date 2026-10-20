@@ -23,10 +23,10 @@ O Whisper pequeno em CPU transcreve ~3,8× mais rápido que o tempo real. Ou
 seja, um ditado de 3 minutos viraria texto em cerca de 45 s, mais ~2 s de
 extração — **menos de um minuto para uma nota que eu ditaria inteira**.
 
-[INSERIR: quanto tempo você leva hoje escrevendo/digitando uma evolução — o
-número que transforma "menos de um minuto" em "X minutos economizados por
-consulta". Não inventei essa média porque ela depende da sua rotina; a
-medição do pipeline está toda em `docs/results.md`.]
+Meu próprio tempo de digitação: escrever uma evolução estruturada à mão leva
+cerca de **10 minutos**. Contra o "menos de um minuto" do pipeline, são **~9
+minutos de volta por consulta** — e ao longo de um dia cheio de atendimentos,
+esse tempo compõe em mais do que uma consulta inteira de trabalho.
 
 ## 2. Demo
 
