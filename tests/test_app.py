@@ -121,6 +121,30 @@ def test_manual_edit_feeds_the_final_text() -> None:
     assert any("queixa revisada pelo dentista" in value for value in draft_values)
 
 
+def test_reextract_from_edited_transcript_does_not_crash() -> None:
+    """The re-extract button lives *below* the editor widget.
+
+    Writing `transcript_editor` there raises StreamlitAPIException ("cannot be
+    modified after the widget ... is instantiated") — the editor must simply
+    keep the text that was just extracted.
+    """
+    app = _app()
+    app.run()
+    next(b for b in app.button if "exemplo sintético" in b.label).click().run()
+    assert not app.exception
+
+    editor = next(a for a in app.text_area if a.key == "transcript_editor")
+    editor.set_value("transcrição editada pelo dentista").run()
+    assert not app.exception
+
+    next(b for b in app.button if "Re-extrair" in b.label).click().run()
+    assert not app.exception
+    assert app.session_state["transcript"] == "transcrição editada pelo dentista"
+    assert app.session_state["note"].chief_complaint == "dor no dente 36"
+    editor = next(a for a in app.text_area if a.key == "transcript_editor")
+    assert editor.value == "transcrição editada pelo dentista"
+
+
 def test_metrics_tab_shows_only_sizes_and_timings() -> None:
     app = _app()
     app.run()

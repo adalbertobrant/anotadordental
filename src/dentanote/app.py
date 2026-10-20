@@ -228,9 +228,15 @@ def _set_note_widgets(note: ClinicalNote) -> None:
         )
 
 
-def _store_result(result: PipelineResult) -> None:
+def _store_result(result: PipelineResult, *, seed_editor: bool = True) -> None:
     st.session_state["transcript"] = result.transcript
-    st.session_state["transcript_editor"] = result.transcript
+    # Streamlit forbids writing a widget-backed key after that widget was
+    # instantiated in the same run. Callers in the input tab run before the
+    # transcript editor below, so seeding it is safe; the re-extract button
+    # lives *under* the editor and passes seed_editor=False (the editor
+    # already holds the very text that was just extracted).
+    if seed_editor:
+        st.session_state["transcript_editor"] = result.transcript
     st.session_state["note"] = result.note
     st.session_state["warnings"] = result.warnings
     st.session_state["metrics"] = result.metrics.to_record()
@@ -252,7 +258,13 @@ def _read_note_from_widgets() -> ClinicalNote:
     return ClinicalNote.model_validate(payload)
 
 
-def _run_and_store(source: str, *, audio_path: Path | None = None, text: str | None = None) -> None:
+def _run_and_store(
+    source: str,
+    *,
+    audio_path: Path | None = None,
+    text: str | None = None,
+    seed_editor: bool = True,
+) -> None:
     settings = get_settings()
     try:
         if audio_path is not None:
@@ -262,7 +274,7 @@ def _run_and_store(source: str, *, audio_path: Path | None = None, text: str | N
     except (ExtractionError, TranscriptionError) as exc:
         st.error(str(exc))
         return
-    _store_result(result)
+    _store_result(result, seed_editor=seed_editor)
     st.session_state["last_source"] = source
 
 
@@ -397,7 +409,10 @@ with tab_transcript:
                 edited = st.session_state.get("transcript_editor", "").strip()
                 if edited:
                     with st.spinner(T["reextract_spinner"]):
-                        _run_and_store("transcrição editada", text=edited)
+                        # seed_editor=False: the editor widget above this
+                        # button is already instantiated in this run, and
+                        # Streamlit rejects writes to widget keys afterwards.
+                        _run_and_store("transcrição editada", text=edited, seed_editor=False)
                     st.success(T["reextract_success"])
 
 # ----------------------------------------------------------------- 3. structs
