@@ -1,5 +1,7 @@
 # Segurança e política de dados — DentaNote
 
+> 🇧🇷 Você está lendo o SECURITY em português. **[Read this document in English](SECURITY.en.md).**
+
 ## Regra número um: nunca com dados reais de pacientes
 
 **Não abra issues, pull requests, discussões, logs, prints ou anexos contendo

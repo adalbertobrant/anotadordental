@@ -1,5 +1,7 @@
 # Contribuindo com o DentaNote
 
+> 🇧🇷 Você está lendo o CONTRIBUTING em português. **[Read this document in English](CONTRIBUTING.en.md).**
+
 Obrigado por querer contribuir! O projeto é pequeno de propósito e convida
 contribuições de três tipos: **outras especialidades odontológicas** (mais
 cenários sintéticos), **outros idiomas** (prompt, transcrição e renderização em

@@ -1,5 +1,7 @@
 # Resultados da avaliação (DentaNote)
 
+> 🇧🇷 Você está lendo os resultados em português. **[Read this report in English](results.en.md).**
+
 Gerado por `scripts/evaluate.py` sobre as 12 transcrições sintéticas de `data/synthetic/transcripts`, comparando com `data/synthetic/expected/`.
 
 ## Qualidade

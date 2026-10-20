@@ -1,5 +1,7 @@
 # Arquitetura — DentaNote
 
+> 🇧🇷 Você está lendo a arquitetura em português. **[Read this document in English](architecture.en.md).**
+
 Pipeline 100% local: áudio (ou texto) entra, **rascunho revisável** sai. O único
 serviço com quem o programa fala é o Ollama na própria máquina
 (`http://localhost:11434`); depois que os modelos estão baixados, nada trafega

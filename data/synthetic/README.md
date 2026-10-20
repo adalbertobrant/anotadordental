@@ -1,5 +1,7 @@
 # Dados sintéticos (transcrições e extrações esperadas)
 
+> 🇧🇷 Você está lendo o README do corpus em português. **[Read this document in English](README.en.md).**
+
 > **Todos os dados deste diretório são 100% fictícios.**
 > As transcrições foram escritas à mão para testes do pipeline. Não há nenhum
 > paciente real, nenhum nome real, nenhum prontuário real, nenhum dado clínico
