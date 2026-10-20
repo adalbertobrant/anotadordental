@@ -15,7 +15,7 @@ final** (Conventional Commits). Nada de trabalho "solto": se a fase não passa e
 | S3 | Fase 3 | `render.py` determinístico, `pipeline.py`, `metrics.py` | Texto final não inventa campo ausente; `metrics.jsonl` sem PHI (teste) | ✅ |
 | S4 | Fase 4 | 12+ transcrições sintéticas, `evaluate.py`, comparação de modelos | `docs/results.md` gerado com precisão/recall/F1 e tabela de modelos | ✅ (2 modelos, 12 casos) |
 | S5 | Fase 5 | Interface Streamlit + `dentanote doctor` | Demo em 1 clique, aviso de rascunho fixo, status offline | ✅ (AppTest + CLI) |
-| S6 | Fase 6 | CI (GitHub Actions), README, docs, diagrama | CI verde: ruff + mypy + pytest em 3.11/3.12 | pendente |
+| S6 | Fase 6 | CI (GitHub Actions), README, docs, diagrama | CI verde: ruff + mypy + pytest em 3.11/3.12 | ✅ |
 | S7 | Fase 7 | `docs/post_draft.md` | Post em PT-BR com tags e marcadores `[INSERIR: ...]` | pendente |
 
 ## Ajustes de processo (retrospectiva)
@@ -33,6 +33,14 @@ final** (Conventional Commits). Nada de trabalho "solto": se a fase não passa e
 - **`--disable-socket` no pytest por padrão** (pytest-socket): prova de que nada além do
   Ollama local é necessário. Testes que falam com a porta local morta usam
   `@pytest.mark.enable_socket`.
+- **Fase 6 absorveu áudio sintético e teste real.** O critério de "transcrição real"
+  só podia ser medido com WAV; `scripts/make_synthetic_audio.py` (piper-tts, com
+  fallback espeak-ng) gera os 12 áudios a partir das transcrições e
+  `tests/test_slow_real.py` (marca `slow`) roda a ponta a ponta com Ollama de verdade,
+  com skip quando o serviço não está no ar. O CI roda `-m "not slow"`.
+- **Issues e labels do GitHub ficaram pendentes de publicação.** O repositório ainda
+  não tem remote; o quadro de backlog vive em `docs/AGILE.md` e as issues serão
+  abertas no primeiro push (rotuladas por fase).
 
 ## Definição de pronto (DoD)
 
