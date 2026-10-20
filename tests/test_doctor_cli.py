@@ -118,3 +118,13 @@ def test_cli_doctor_runs(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Non
     assert result.exit_code == 0
     assert "Servidor Ollama" in result.output
     assert "Tudo pronto" in result.output or "funcional" in result.output
+
+
+def test_cli_eval_mock_writes_report(tmp_path: Path) -> None:
+    """``dentanote eval --mock`` validates the harness offline and writes the report."""
+    out = tmp_path / "results.md"
+    result = runner.invoke(app, ["eval", "--mock", "--limit", "2", "--out", str(out)])
+    assert result.exit_code == 0, result.output
+    assert "Resultados da avaliação" in result.output
+    assert out.exists()
+    assert "Relatório gravado" in result.output

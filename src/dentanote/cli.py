@@ -10,13 +10,14 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, NoReturn
 
 import typer
 
 from dentanote import __version__
 from dentanote.config import get_settings
 from dentanote.doctor import run_checks, summarize
+from dentanote.evaluation import corpus_root, report_markdown, run_evaluation
 from dentanote.extract import ExtractionError
 from dentanote.pipeline import PipelineResult, run_from_audio, run_from_text
 from dentanote.transcribe import TranscriptionError
@@ -40,7 +41,7 @@ def _configure_logging(verbose: bool) -> None:
     )
 
 
-def _fail(message: str, code: int = 1) -> None:
+def _fail(message: str, code: int = 1) -> NoReturn:
     typer.secho(message, fg="red", err=True)
     raise typer.Exit(code)
 
@@ -130,6 +131,45 @@ def doctor_cmd() -> None:
         typer.secho("\nAmbiente funcional, com avisos ⚠ (veja acima).", fg="yellow")
     else:
         typer.secho("\nTudo pronto: DentaNote 100% local.", fg="green")
+
+
+@app.command("eval")
+def eval_cmd(
+    models: Annotated[
+        list[str] | None,
+        typer.Option("--models", help="Modelo do Ollama a avaliar (repita a opção)."),
+    ] = None,
+    limit: Annotated[
+        int | None, typer.Option("--limit", help="Avaliar apenas N transcrições.")
+    ] = None,
+    mock: Annotated[
+        bool,
+        typer.Option("--mock", help="Valida o avaliador: devolve o JSON esperado."),
+    ] = False,
+    out: Annotated[Path | None, typer.Option("--out", help="Caminho do Markdown gerado.")] = None,
+    no_write: Annotated[
+        bool, typer.Option("--no-write", help="Apenas imprime, não grava arquivo.")
+    ] = False,
+) -> None:
+    """Evaluate model(s) over the synthetic corpus (writes docs/results.md)."""
+    settings = get_settings()
+    model_list = list(models) if models else [settings.llm_model]
+    try:
+        reports, memory_mb = run_evaluation(model_list, limit=limit, mock=mock)
+    except SystemExit as exc:
+        _fail(str(exc))
+    markdown = report_markdown(reports, memory_mb=memory_mb)
+    typer.echo(markdown)
+    if not no_write:
+        target = out
+        if target is None:
+            root = corpus_root()
+            if root is None:  # pragma: no cover - run_evaluation already failed
+                _fail("corpus sintético não encontrado; use --out para escolher o destino.")
+            target = root.parents[1] / "docs" / "results.md"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(markdown, encoding="utf-8")
+        typer.secho(f"Relatório gravado em {target}", fg="green", err=True)
 
 
 @app.command("run")

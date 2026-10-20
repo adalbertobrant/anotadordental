@@ -14,11 +14,18 @@ The rules are deliberately simple and deterministic so the numbers in
 
 from __future__ import annotations
 
+import json
 import re
 import statistics
+import sys
+import time
 import unicodedata
 from dataclasses import dataclass, field
+from pathlib import Path
 
+from dentanote.config import Settings
+from dentanote.extract import OllamaClient, OllamaReply
+from dentanote.pipeline import run_from_text
 from dentanote.schema import ClinicalNote
 
 _ACCENT_RE = re.compile(r"[^\w\s]", re.UNICODE)
@@ -320,3 +327,121 @@ def report_markdown(reports: list[ModelReport], *, memory_mb: float | None = Non
         "",
     ]
     return "\n".join(lines)
+
+
+# --------------------------------------------------------------------------
+# Corpus runner — shared by ``scripts/evaluate.py`` and ``dentanote eval``
+
+
+def corpus_root() -> Path | None:
+    """Locate ``data/synthetic`` (works from the repo, not from a wheel)."""
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "data" / "synthetic" / "transcripts").is_dir():
+            return parent / "data" / "synthetic"
+    return None
+
+
+def load_corpus(limit: int | None = None) -> list[tuple[str, str, ClinicalNote]]:
+    """Return ``(slug, transcript, expected_note)`` triples sorted by slug."""
+    root = corpus_root()
+    if root is None:
+        raise SystemExit(
+            "corpus sintético não encontrado — este comando roda a partir do "
+            "repositório (data/synthetic/transcripts)."
+        )
+    cases: list[tuple[str, str, ClinicalNote]] = []
+    for transcript_path in sorted((root / "transcripts").glob("*.txt")):
+        expected_path = root / "expected" / f"{transcript_path.stem}.json"
+        if not expected_path.exists():
+            raise SystemExit(f"missing expected file for {transcript_path.name}: {expected_path}")
+        note = ClinicalNote.model_validate(json.loads(expected_path.read_text(encoding="utf-8")))
+        transcript = transcript_path.read_text(encoding="utf-8").strip()
+        cases.append((transcript_path.stem, transcript, note))
+        if limit and len(cases) >= limit:
+            break
+    if not cases:
+        raise SystemExit(f"no transcripts found in {root / 'transcripts'}")
+    return cases
+
+
+class EchoClient:
+    """Mock client returning the expected extraction (harness validation only)."""
+
+    def __init__(self, expected_json: str) -> None:
+        self.expected_json = expected_json
+        self.calls = 0
+
+    def chat(self, messages: list[dict[str, str]]) -> OllamaReply:
+        self.calls += 1
+        return OllamaReply(
+            text=self.expected_json,
+            prompt_tokens=100,
+            completion_tokens=100,
+            model="mock:expected",
+            latency_s=0.0,
+        )
+
+
+def evaluate_model(
+    model: str,
+    corpus: list[tuple[str, str, ClinicalNote]],
+    *,
+    mock: bool = False,
+) -> ModelReport:
+    """Run the pipeline over the corpus with one model (or the mock client)."""
+    settings = Settings(llm_model=model)
+    cases: list[CaseResult] = []
+    for index, (slug, transcript, expected) in enumerate(corpus, start=1):
+        client = (
+            EchoClient(json.dumps(expected.model_dump(mode="json"), ensure_ascii=False))
+            if mock
+            else OllamaClient(settings)
+        )
+        started = time.perf_counter()
+        result = run_from_text(transcript, settings, client=client, record=False)  # type: ignore[arg-type]
+        case = evaluate_case(
+            slug,
+            result.note,
+            expected,
+            valid_first_try=result.metrics.valid_first_try,
+            repair_attempts=result.metrics.repair_attempts,
+            extraction_s=result.metrics.extraction_s,
+            total_s=result.metrics.total_s,
+            prompt_tokens=result.metrics.prompt_tokens,
+            completion_tokens=result.metrics.completion_tokens,
+            warnings=len(result.warnings),
+        )
+        cases.append(case)
+        print(
+            f"[{model}] {index}/{len(corpus)} {slug}: "
+            f"first_try={'yes' if case.valid_first_try else 'NO'} "
+            f"repairs={case.repair_attempts} "
+            f"F1 teeth={case.scores['teeth_fdi'].f1:.2f} "
+            f"procedures={case.scores['procedures'].f1:.2f} "
+            f"medications={case.scores['medications'].f1:.2f} "
+            f"fp={case.hallucinated_items} ({time.perf_counter() - started:.1f}s)",
+            file=sys.stderr,
+        )
+    return ModelReport(model=model, cases=cases)
+
+
+def peak_memory_mb() -> float | None:
+    """Peak RSS of this process in MB (None where the metric is unavailable)."""
+    try:
+        import resource
+    except ImportError:  # pragma: no cover - Windows
+        return None
+    return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0
+
+
+def run_evaluation(
+    models: list[str],
+    *,
+    limit: int | None = None,
+    mock: bool = False,
+    corpus: list[tuple[str, str, ClinicalNote]] | None = None,
+) -> tuple[list[ModelReport], float | None]:
+    """Evaluate every model over the corpus; returns reports and peak RSS (MB)."""
+    corpus = corpus if corpus is not None else load_corpus(limit)
+    reports = [evaluate_model(model, corpus, mock=mock) for model in models]
+    return reports, peak_memory_mb()

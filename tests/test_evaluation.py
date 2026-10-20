@@ -2,12 +2,18 @@
 
 from __future__ import annotations
 
+import subprocess
+import sys
+from pathlib import Path
+
 from dentanote.evaluation import (
     ModelReport,
     evaluate_case,
     items_match,
+    load_corpus,
     normalize_item,
     report_markdown,
+    run_evaluation,
     score_field,
 )
 from dentanote.schema import ClinicalNote
@@ -184,3 +190,48 @@ def test_report_markdown_contains_tables_and_models() -> None:
     assert "100%" in markdown
     assert "512 MB" in markdown
     assert "Taxa de alucinação" in markdown
+
+
+def test_run_evaluation_mock_perfect_scores() -> None:
+    """The mock client echoes the expected JSON: harness sanity, F1 must be 1."""
+    reports, memory_mb = run_evaluation(["mock:model"], limit=2, mock=True)
+    (report,) = reports
+    assert len(report.cases) == 2
+    assert report.valid_first_try_rate == 1.0
+    assert report.hallucination_rate == 0.0
+    assert report.macro("teeth_fdi", "f1") == 1.0
+    assert report.macro("procedures", "f1") == 1.0
+    assert report.macro("medications", "f1") == 1.0
+    if memory_mb is not None:
+        assert memory_mb > 0
+
+
+def test_load_corpus_pairs_every_transcript_with_expected() -> None:
+    corpus = load_corpus()
+    assert len(corpus) >= 12
+    assert len({slug for slug, _, _ in corpus}) == len(corpus)
+
+
+def test_evaluate_script_mock_smoke(tmp_path: Path) -> None:
+    """``scripts/evaluate.py --mock`` runs end to end with sockets disabled."""
+    root = Path(__file__).resolve().parents[1]
+    out = tmp_path / "results.md"
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(root / "scripts" / "evaluate.py"),
+            "--mock",
+            "--limit",
+            "1",
+            "--out",
+            str(out),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=120,
+        cwd=root,
+        check=False,
+    )
+    assert proc.returncode == 0, proc.stderr
+    assert "Resultados da avaliação" in proc.stdout
+    assert out.exists()
